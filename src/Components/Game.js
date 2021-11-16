@@ -12,8 +12,9 @@ const GameInfo = styled.ul`
 `;
 
 const Status = styled.div`
-	margin: 15px 0 10px;
+	margin: 20px 0 10px;
 	font-size: 20px;
+	font-weight: bold;
 `;
 
 const Button = styled.button`
@@ -56,13 +57,14 @@ const Game = () => {
 	const winData = calculateWinner(history[moveNumber]);
 	const winner = winData ? winData[0] : null;
 	const winnerLine = winData ? winData[1] : null;
+	const tie = !winner && moveNumber === 9;
 
 	const clickHandler = (i) => {
 		const gameHistory = history.slice(0, moveNumber + 1);
 		const currentBoard = gameHistory[moveNumber];
 		// const squares = [...history];
 		const squares = [...currentBoard];
-		if (winner || squares[i]) return;
+		if (winner || squares[i] || tie) return;
 		squares[i] = xIsNext ? 'X' : 'O';
 		setHistory([...gameHistory, squares]);
 		setMoveNumber(gameHistory.length);
@@ -87,7 +89,7 @@ const Game = () => {
 	let status;
 	if (winner) {
 		status = `Player ${winner} won!`;
-	} else if (!winner && moveNumber === 9) {
+	} else if (tie) {
 		status = 'Friendship won!';
 	} else {
 		status = `Next player: ${xIsNext ? 'X' : 'O'}`;
@@ -95,13 +97,7 @@ const Game = () => {
 
 	return (
 		<GameDiv>
-			<Board
-				board={history[moveNumber]}
-				clickHandler={clickHandler}
-				xIsNext={xIsNext}
-				winner={winner || (!winner && moveNumber === 9)}
-				winnerLine={winnerLine}
-			/>
+			<Board board={history[moveNumber]} clickHandler={clickHandler} xIsNext={xIsNext} winner={winner || tie} winnerLine={winnerLine} />
 			<Status>{status}</Status>
 			<GameInfo>{renderMoves()}</GameInfo>
 		</GameDiv>
