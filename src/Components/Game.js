@@ -7,17 +7,17 @@ const GameDiv = styled.div`
 `;
 
 const GameInfo = styled.ul`
-	margin-left: 20px;
 	list-style: none;
+	padding: 0;
 `;
 
 const Status = styled.div`
-	margin-bottom: 10px;
+	margin: 15px 0 10px;
 	font-size: 20px;
 `;
 
 const Button = styled.button`
-	margin: 10px;
+	margin: 3px;
 	background-color: #ffffff;
 	border: 1px solid #a9a9a9;
 	border-radius: 5px;
@@ -42,7 +42,7 @@ const calculateWinner = (board) => {
 	for (let i = 0; i < lines.length; i++) {
 		const [a, b, c] = lines[i];
 		if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-			return board[a];
+			return [board[a], lines[i]];
 		}
 	}
 	return null;
@@ -53,7 +53,9 @@ const Game = () => {
 	const [moveNumber, setMoveNumber] = useState(0);
 	const [xIsNext, setXIsNext] = useState(true);
 
-	const winner = calculateWinner(history[moveNumber]);
+	const winData = calculateWinner(history[moveNumber]);
+	const winner = winData ? winData[0] : null;
+	const winnerLine = winData ? winData[1] : null;
 
 	const clickHandler = (i) => {
 		const gameHistory = history.slice(0, moveNumber + 1);
@@ -85,16 +87,22 @@ const Game = () => {
 	let status;
 	if (winner) {
 		status = `Player ${winner} won!`;
+	} else if (!winner && moveNumber === 9) {
+		status = 'Friendship won!';
 	} else {
 		status = `Next player: ${xIsNext ? 'X' : 'O'}`;
 	}
 
 	return (
 		<GameDiv>
-			<div className='game-board'>
-				<Status>{status}</Status>
-				<Board board={history[moveNumber]} clickHandler={clickHandler} xIsNext={xIsNext} />
-			</div>
+			<Board
+				board={history[moveNumber]}
+				clickHandler={clickHandler}
+				xIsNext={xIsNext}
+				winner={winner || (!winner && moveNumber === 9)}
+				winnerLine={winnerLine}
+			/>
+			<Status>{status}</Status>
 			<GameInfo>{renderMoves()}</GameInfo>
 		</GameDiv>
 	);

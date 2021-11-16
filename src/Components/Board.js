@@ -12,7 +12,13 @@ const Board = (props) => {
 		<Fragment>
 			<BoardDiv>
 				{props.board.map((square, i) => (
-					<Square key={i} value={square} clickHandler={() => props.clickHandler(i)} />
+					<Square
+						key={i}
+						value={square}
+						clickHandler={() => props.clickHandler(i)}
+						winner={props.winner}
+						winnerLine={props.winnerLine ? props.winnerLine.includes(i) : false}
+					/>
 				))}
 			</BoardDiv>
 		</Fragment>
