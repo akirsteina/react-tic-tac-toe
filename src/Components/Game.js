@@ -1,16 +1,26 @@
+import styled from 'styled-components';
 import Board from './Board';
 
 const Game = () => {
+	const Game = styled.div`
+		display: flex;
+		flex-direction: row;
+	`;
+
+	const GameInfo = styled.div`
+		margin-left: 20px;
+	`;
+
 	return (
-		<div className='game'>
+		<Game>
 			<div className='game-board'>
 				<Board />
 			</div>
-			<div className='game-info'>
+			<GameInfo>
 				<div>{/* status */}</div>
 				<ol>{/* TODO */}</ol>
-			</div>
-		</div>
+			</GameInfo>
+		</Game>
 	);
 };
 

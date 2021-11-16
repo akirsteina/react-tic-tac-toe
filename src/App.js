@@ -1,13 +1,19 @@
 import React from 'react';
 import Game from './Components/Game';
 
-import './index.css';
-
+import './Assets/index.css';
+import styled from 'styled-components';
 function App() {
+	const Container = styled.div`
+		display: flex;
+		justify-content: center;
+		margin-top: 100px;
+	`;
+
 	return (
-		<React.Fragment>
+		<Container>
 			<Game />
-		</React.Fragment>
+		</Container>
 	);
 }
 

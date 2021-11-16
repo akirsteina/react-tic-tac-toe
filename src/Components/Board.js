@@ -1,30 +1,43 @@
+import React from 'react';
+import styled from 'styled-components';
 import Square from './Square';
 
 const Board = () => {
-	const status = 'Next player: X';
+	const Status = styled.div`
+		margin-bottom: 10px;
+	`;
+
+	const BoardRow = styled.div`
+		&:after {
+			clear: both;
+			content: '';
+			display: table;
+		}
+	`;
+
 	const renderSquare = (i) => {
 		return <Square />;
 	};
 
 	return (
-		<div>
-			<div className='status'>{status}</div>
-			<div className='board-row'>
+		<React.Fragment>
+			<Status>Next player: X</Status>
+			<BoardRow>
 				{renderSquare(0)}
 				{renderSquare(1)}
 				{renderSquare(2)}
-			</div>
-			<div className='board-row'>
+			</BoardRow>
+			<BoardRow>
 				{renderSquare(3)}
 				{renderSquare(4)}
 				{renderSquare(5)}
-			</div>
-			<div className='board-row'>
+			</BoardRow>
+			<BoardRow>
 				{renderSquare(6)}
 				{renderSquare(7)}
 				{renderSquare(8)}
-			</div>
-		</div>
+			</BoardRow>
+		</React.Fragment>
 	);
 };
 
