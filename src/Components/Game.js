@@ -6,13 +6,26 @@ const GameDiv = styled.div`
 	display: grid;
 `;
 
-const GameInfo = styled.div`
+const GameInfo = styled.ul`
 	margin-left: 20px;
+	list-style: none;
 `;
 
 const Status = styled.div`
 	margin-bottom: 10px;
 	font-size: 20px;
+`;
+
+const Button = styled.button`
+	margin: 10px;
+	background-color: #ffffff;
+	border: 1px solid #a9a9a9;
+	border-radius: 5px;
+	padding: 10px 15px;
+	cursor: pointer;
+	&:hover {
+		background-color: #e7e7e7;
+	}
 `;
 
 const calculateWinner = (board) => {
@@ -36,23 +49,38 @@ const calculateWinner = (board) => {
 };
 
 const Game = () => {
-	const [board, setBoard] = useState(Array(9).fill(null));
+	const [history, setHistory] = useState([Array(9).fill(null)]);
+	const [moveNumber, setMoveNumber] = useState(0);
 	const [xIsNext, setXIsNext] = useState(true);
-	const [history, setHistory] = useState(board);
 
-	const current = history.length - 1;
-	const winner = calculateWinner(board);
+	const winner = calculateWinner(history[moveNumber]);
 
 	const clickHandler = (i) => {
-		const squares = [...board];
+		const gameHistory = history.slice(0, moveNumber + 1);
+		const currentBoard = gameHistory[moveNumber];
+		// const squares = [...history];
+		const squares = [...currentBoard];
 		if (winner || squares[i]) return;
 		squares[i] = xIsNext ? 'X' : 'O';
-		setBoard(squares);
+		setHistory([...gameHistory, squares]);
+		setMoveNumber(gameHistory.length);
 		setXIsNext(!xIsNext);
 	};
 
-	const jumpToStart = () => {};
-	const renderMoves = () => {};
+	const jumpToMove = (move) => {
+		setMoveNumber(move);
+		setXIsNext(move % 2 === 0);
+	};
+
+	const renderMoves = () =>
+		history.map((_moveNumber, move) => {
+			const destination = move ? `Go to move ${move}` : 'Start again';
+			return (
+				<li key={move}>
+					<Button onClick={() => jumpToMove(move)}>{destination}</Button>
+				</li>
+			);
+		});
 
 	let status;
 	if (winner) {
@@ -65,12 +93,9 @@ const Game = () => {
 		<GameDiv>
 			<div className='game-board'>
 				<Status>{status}</Status>
-				<Board board={board} clickHandler={clickHandler} xIsNext={xIsNext} />
+				<Board board={history[moveNumber]} clickHandler={clickHandler} xIsNext={xIsNext} />
 			</div>
-			<GameInfo>
-				<div onClick={jumpToStart}>{/* status */}</div>
-				<ol>{/* TODO */}</ol>
-			</GameInfo>
+			<GameInfo>{renderMoves()}</GameInfo>
 		</GameDiv>
 	);
 };
