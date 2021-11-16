@@ -6,13 +6,14 @@ const Button = styled.button`
 	float: left;
 	font-size: 24px;
 	font-weight: bold;
-	line-height: 50px;
-	height: 50px;
+	line-height: 80px;
+	height: 80px;
 	margin-right: -1px;
 	margin-top: -1px;
 	padding: 0;
 	text-align: center;
-	width: 50px;
+	width: 80px;
+	cursor: pointer;
 	&:focus {
 		outline: none;
 		background: #ddd;
@@ -20,11 +21,7 @@ const Button = styled.button`
 `;
 
 const Square = (props) => {
-	const clickHandler = () => {
-		console.log('Click!');
-	};
-
-	return <Button onClick={clickHandler}>{props.value}</Button>;
+	return <Button onClick={props.clickHandler}>{props.value}</Button>;
 };
 
 export default Square;

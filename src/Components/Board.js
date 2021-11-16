@@ -1,43 +1,21 @@
-import React from 'react';
+import { Fragment } from 'react';
 import styled from 'styled-components';
 import Square from './Square';
 
-const Status = styled.div`
-	margin-bottom: 10px;
-	font-size: 20px;
+const BoardDiv = styled.div`
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
 `;
 
-const BoardRow = styled.div`
-	&:after {
-		clear: both;
-		content: '';
-		display: table;
-	}
-`;
-const Board = () => {
-	const renderSquare = (i) => {
-		return <Square value={i} />;
-	};
-
+const Board = (props) => {
 	return (
-		<React.Fragment>
-			<Status>Next player: X</Status>
-			<BoardRow>
-				{renderSquare(0)}
-				{renderSquare(1)}
-				{renderSquare(2)}
-			</BoardRow>
-			<BoardRow>
-				{renderSquare(3)}
-				{renderSquare(4)}
-				{renderSquare(5)}
-			</BoardRow>
-			<BoardRow>
-				{renderSquare(6)}
-				{renderSquare(7)}
-				{renderSquare(8)}
-			</BoardRow>
-		</React.Fragment>
+		<Fragment>
+			<BoardDiv>
+				{props.board.map((square, i) => (
+					<Square key={i} value={square} clickHandler={() => props.clickHandler(i)} />
+				))}
+			</BoardDiv>
+		</Fragment>
 	);
 };
 
