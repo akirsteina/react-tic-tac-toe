@@ -2,21 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import Square from './Square';
 
+const Status = styled.div`
+	margin-bottom: 10px;
+	font-size: 20px;
+`;
+
+const BoardRow = styled.div`
+	&:after {
+		clear: both;
+		content: '';
+		display: table;
+	}
+`;
 const Board = () => {
-	const Status = styled.div`
-		margin-bottom: 10px;
-	`;
-
-	const BoardRow = styled.div`
-		&:after {
-			clear: both;
-			content: '';
-			display: table;
-		}
-	`;
-
 	const renderSquare = (i) => {
-		return <Square />;
+		return <Square value={i} />;
 	};
 
 	return (
